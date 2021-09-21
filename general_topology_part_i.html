@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css" integrity="sha384-zTROYFVGOfTw7JV7KUu8udsvW2fx4lWOsCEDqhBreBwlHI4ioVRtmIvEThzJHGET" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js" integrity="sha384-GxNFqL3r9uRJQhR+47eDxuPoNE7yLftQM8LcxzgS4HT73tp970WS/wV5p8UzCOmb" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+  <script defer src="script.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <title> General topology, Part I: Of spaces and bases </title>
+</head>
+
+<body>
+  <!-- TODO: Interesection not belongs, correct def nums, add imgs -->
+  <div id="content">
+    <h1> General topology, Part I: Of spaces and bases </h1>
+
+    <h2> Topological spaces </h2>
+
+    <a href="https://www.youtube.com/watch?v=AEIn3T6nDAo&t=75s">*Inhales* What is <s>physics</s></a> a topological space? Well, you see, topology comes from the words τόπος and λόγος... Okay, just kidding - I am not going to go full Sheldon Cooper on you. Although I have to admit that if Big Bang Theory would consist of physics lectures held by Sheldon, that would be <em>hilarious</em> (unlike the actual show). <br> <br>
+
+    So instead of diving into the etymology, let us dive into the mathematics (which is more interesting anyway). The main idea behind topological spaces is surprisingly simple. We take a non-empty set $X$ and declare some subsets of $X$ to be open such that:
+
+    <ul>
+      <li> $\emptyset$ and $X$ are open </li>
+      <li> <em>any</em> union (regardless of whether it is countable or uncountable) of open sets is open </li>
+      <li> <em>any finite</em> intersection of open sets is open </li>
+    </ul>
+
+    Let us repeat this, but this time more formally and with a fancy definition box:
+
+    <div class="definition">
+      <span class="name">Definition 1.1</span> Let $X$ be a set, $X \neq \emptyset$ and $\tau$ a family of sets over $X$. Then $\tau$ is a <span class="keyword">topology</span> on $X$ if
+      <ol>
+        <li> $\emptyset, X \in \tau$ </li>
+        <li> $U_1, U_2, \dots \in \tau \implies \bigcup\limits_{i} U_i \in \tau$ </li>
+        <li> $U_1, \dots, U_n \in \tau \implies \bigcap\limits_{i=1}^n U_i \in \tau$ </li>
+      </ol>
+      If $\tau$ is a topology on $X$, then $(X, \tau)$ is called a <span class="keyword">topological space</span>. The elements of $X$ are then called <span class="keyword">points</span> and the elements of $\tau$ are called <span class="keyword">open sets</span>. The complements of the open sets are called <span class="keyword">closed sets</span>.
+    </div>
+
+    We should note that, of course property (3) could be rewritten as $U_1, U_2 \in \tau \implies U_1 \cap U_2 \in \tau$. Whenever we will want to show that some $(X, \tau)$ is a topological space, we will usually check property (3) in this form. <br> <br>
+
+    The two most obvious topologies on any non-empty set $X$ are the trivial topology $\{\emptyset, X\}$ and the discrete topology $\mathcal{P}(X)$.
+    They are usually not particularly interesting - except when we want to kill painstakingly built intuition of some concept. For example, it is easy to see that in the discrete topology all subsets of $X$ are both open and closed at the same time.
+
+    <img src="images/general_topology_part_i/open_closed.png">
+    <div class="caption"> Sadly, no. </div>
+
+    This leads to the definition of clopen (yes, really) sets:
+
+    <div class="definition">
+      <span class="name">Definition 1.2</span> Let $(X, \tau)$ be a topological space. A set $U \subseteq X$ that is both open and closed is called <span class="keyword">clopen</span>.
+    </div>
+
+    As said, the trivial and discrete topology are not that interesting, so let us turn to some more illuminating examples. Note that from now on we will treat the terminology pretty loosely (as is <a href="https://en.wikipedia.org/wiki/Abuse_of_notation">common practice</a> in mathematics). For example we might refer to $\{X, \{\emptyset, X\}\}$ as the trivial topology, although <em>technically</em> it would be the trivial topological space and vice versa. However, since it is always clear from the context what exactly we mean, we will not pay much attention to the difference between topologies and topological spaces.
+
+    <h2> Examples of topological spaces </h2>
+
+    First of all, it is of course easy to create as many finite topological spaces as you want by taking $X$ to be some non-empty, finite set and then constructing a family of sets $\tau$ over $X$ such that the family satisfies properties (1) - (3) from definition 1.1. For example $X = \{a, b, c\}, \tau = \{\emptyset, \{a\}, \{c\}, \{a, c\}, X\}$ is obviously a topology - however these kinds of topological spaces are not much more interesting than the trivial and discrete spaces. So let us look at the some other examples: <br> <br>
+
+    <span class="keyword"> Initial segment topology. </span> Let $X = \mathbb{N}$ and $\tau = \{\emptyset, \mathbb{N}\} \cup \{\{1, \dots, n\} : n \in \mathbb{N}\}$. The only nontrivial propery that needs to be checked is property (2). Here we observe that there are only two possible types of unions of sets of the form $\{1, \dots, n\}$. First, the union can have a largest element, in which case we get another set of the form $\{1, \dots, n\}$ (which is an open set). If the union does not have a largest element, then we get $\mathbb{N}$ (which is also an open set). Therefore the union of any open sets will again be open and thus property (2) is satisfied. <br> <br>
+
+    <span class="keyword"> Final segment topology. </span> Let $X = \mathbb{N}$ and $\tau = \{\emptyset, \mathbb{N}\} \cup \{\{n, n + 1, \dots\} : n \in \mathbb{N}\}$. The fact that this is a topology is even more obvious than in the preceding example since now even property (2) clearly holds. <br> <br>
+
+    Before we move to the next example, let us point out that we can view a topology in terms of closed sets instead of open sets:
+
+    <div class="definition">
+      <span class="name">Proposition 1.3</span> Let $X$ be a set, $X \neq \emptyset$ and $\tau$ a family of sets over $X$. Let $\hat{\tau} = \{A \in X: X \setminus A \in \tau\}$. Then $(X, \tau)$ is a topological space if and only if
+      <ol>
+        <li> $\emptyset, X \in \hat{\tau}$ </li>
+          <li> $A_1, \dots, A_n \in \hat{\tau} \implies \bigcup\limits_{i=1}^n A_i \in \hat{\tau}$ </li>
+          <li> $A_1, A_2, \dots \in \hat{\tau} \implies \bigcap\limits_{i} A_i \in \hat{\tau}$ </li>
+      </ol>
+    </div>
+
+    The proof of proposition 1.3 is trivial - the statement immediately follows from definition 1.1 and De Morgan's laws. <br> <br>
+
+    Put simply, $(X, \tau)$ is a topological space if and only if:
+    <ul>
+      <li> $\emptyset$ and $X$ are closed </li>
+      <li> any finite union of closed sets is closed </li>
+      <li> any intersection of closed sets is closed </li>
+    </ul>
+
+    Note that this intuition has a minor technical hole. Until $(X, \tau)$ has been confirmed to be a topological space, we have no notion of a closed set (and thus can't say things like "if all finite unions of closed sets are closed"). This is also the reason why we introduced the set $\hat{\tau}$ in the above definition. We will ignore this from now on and will regularly talk about closed sets even when we technically do not have confirmation that some $\tau$ is a topology yet. In such cases, simply assume that we mean a set that is in $\hat{\tau}$. <br> <br>
+
+    Armed with the capability of viewing topological spaces in terms of closed sets, we move on to the next example: <br> <br>
+
+    <span class="keyword">Cofinite topology.</span> Let $X$ be any non-empty set and let $\tau = \{U \subseteq X: U = \emptyset \text{ or } X \setminus U \text{ finite } \}$. In other words, the closed sets of this topology are $X$ and all finite sets. We now immediately see that $(X, \tau)$ is a topological space (called the cofinite topology). Indeed, all finite unions of finite sets and $X$ are either finite or $X$. All intersections of finite sets and $X$ are also either finite or $X$. This topology is the classical example of a topology that is best viewed through its closed sets instead of its open sets. <br> <br>
+
+    <span class="keyword">Cocountable topology.</span> Let $X$ be any non-empty set and let $\tau = \{U \subseteq X: U = \emptyset \text{ or } X \setminus U \text{ countable } \}$. In other words, the closed sets of this topology are $X$ and all countable sets. Making a similar argument as in the preceding paragraph, we see that $(X, \tau)$ is indeed a topology (called the cocountable topology). <br> <br>
+
+    Now that we have seen some examples and solidified our intuition on topological spaces, let us turn to one of the most important topologies - the Euclidean topology on $\mathbb{R}$ (which we will later extend to the Euclidean topology on $\mathbb{R}^n$).
+
+    <h2> Euclidean topology on $\mathbb{R}$ </h2>
+
+    One of the most useful topologies we will study is the Euclidean topology on $\mathbb{R}$. We construct this topology by beginning with $\emptyset$, $\mathbb{R}$ and all open intervals in $\mathbb{R}$ and adding sets until the three properties of definition 1.1 hold. For property (2) to hold we therefore need to add all (countable and uncountable) unions of open intervals to our set. We then note that once we have all open intervals and all their unions, their intersections do not add any new sets and therefore we have a topology.
+
+    <img src="images/general_topology_part_i/open_set_in_r.png">
+    <div class="caption"> For example $(a, b) \cup (c, d) \cup (e, f)$ is an open set in $\mathbb{R}$. </div>
+
+    Let us formalize this:
+
+    <div class="definition">
+      <span class="name">Proposition 1.4</span> The set that consists of $\emptyset$, $\mathbb{R}$ and all unions of open intervals in $\mathbb{R}$ is a topology on $\mathbb{R}$.
+    </div>
+
+    <div class="definition">
+      <span class="name">Definition 1.5</span> The topology in proposition 1.4 is called the <span class="keyword"> Euclidean topology on $\mathbb{R}$</span>.
+    </div>
+
+    We see, how - in this particular topology - the open sets nicely reflect our intuitive understanding of openness. We note that in particular, all sets of the form $(a, b)$, $(a, \infty)$ and $(-\infty, a)$ are open in $\mathbb{R}$. We also see how closed sets nicely reflect our intuitive understanding of closedness. For example, the closed interval $[a, b]$ is a closed set (since $(-\infty, a) \cup (b, \infty)$ is clearly open). <br> <br>
+
+    We note that from now on we will often simply talk about the topological space $\mathbb{R}$. Whenever we only mention the set $X$ and omit $\tau$, we consider the so called <span class="keyword">usual topology</span> (or <span class="keyword">natural topology</span>) on $X$. This is essentially the topology we most often use. The usual topology on $\mathbb{R}$ is, as you probably guessed, precisely the Euclidean topology. Therefore whenever we say "the topological space $\mathbb{R}$" we mean the Euclidean topology on $\mathbb{R}$. <br> <br>
+
+    Nevertheless, keep in mind that the natural topology is not the only possible topology on some set $X$. Especially keep in mind that some set $U \subseteq X$ might be open or not be open <em>depending on the topology</em> on $X$. Therefore it is extremely important to always be clear on the actual topology one is currently looking at. So, going forward, we will consider the natural topology, unless <b>explicitly stated otherwise</b>. <br> <br>
+
+    We will now take a peek at two important subsets of $\mathbb{R}$ and check whether they are open or closed. While this will be a bit relevant later on, right now we do this mostly to solidify our intuition on open sets.
+
+    <div class="proposition">
+      <span class="name">Proposition 1.6</span> $\mathbb{Z}$ is a closed set in $\mathbb{R}$.
+    </div>
+
+    The proof of this is straightforward. We simply observe that $\mathbb{R} \setminus \mathbb{Z} = \bigcup\limits_{n \in \mathbb{Z}} (n - 1, n + 1)$ is an open set.
+
+    <div class="proposition">
+      <span class="name">Proposition 1.7</span> $\mathbb{Q}$ is neither open nor closed in $\mathbb{R}$.
+    </div>
+
+    Here we observe that neither $\mathbb{Q}$ nor $\mathbb{R} \setminus \mathbb{Q}$ contain any open interval $(a, b)$ and are therefore both not open sets.
+
+    <h2> Basis of a topological space </h2>
+
+    In the previous section we observed how the Euclidean topology on $\mathbb{R}$ grew out of a bunch of initial open sets. As it turns out, we will quite often want to grow a topology out of some initial open sets. In addition to that it seems simpler to describe a topology in terms of some "basis" (let us call it that in analogy to vector spaces) than to define it explicitly. <br> <br>
+
+    You already know what's coming next - of course, it is the fancy definition box! While we are at it, let us give this new term a name, like uh... I don't know - a basis! Hah, bet you did not see that one coming!
+
+    <div class="definition">
+      <span class="name">Definition 1.8</span> Let $(X, \tau)$ be a topological space. A family $\mathcal{B}$ of open sets over $X$ is called a <span class="keyword">basis</span> of $(X, \tau)$ if every open set can be written as a union of elements of $\mathcal{B}$. If $\mathcal{B}$ is a basis of $(X, \tau)$ we say that $\mathcal{B}$ <span class="keyword">generates</span> $(X, \tau)$.
+    </div>
+
+    We can see that <em>if</em> $\mathcal{B}$ is a valid basis, then $\mathcal{B}$ indeed "generates" a topology $\tau$. After all, if we know all the elements of a basis we can simply find $\tau$ by taking all the possible unions of members of $\mathcal{B}$. We note that of course there can be many different bases for a topology - in particular if $\mathcal{B}$ is a basis and $\mathcal{B}'$ some set for which $\mathcal{B} \subseteq \mathcal{B}' \subseteq \tau$ then $\mathcal{B}'$ is also a basis. <br> <br>
+
+    Let us now have a look at the bases of some of the topological spaces we saw thus far: <br> <br>
+
+    <b>Trivial topology.</b> The trivial topology simply has the basis $\{\emptyset, X\}$. This is also the only basis for the trivial topology. <br> <br>
+
+    <b>Discrete topology.</b> The simplest basis of the discrete topology is the set of all singletons on $X$. However this is not the only basis of $X$ since (as discussed) any $\mathcal{B}'$ for which $\mathcal{B} \subseteq \mathcal{B}' \subseteq \tau$ will also be a basis for the discrete topology. <br> <br>
+
+    <b>Euclidean topology.</b> We already saw in the preceding section that the basis of the Euclidean topology over $\mathbb{R}$ is the set of open intervals (on $\mathbb{R}$). <br> <br>
+
+    An interesting question is whether any set $\mathcal{B}$ is a basis for some topology. Obviously we must have $X = \bigcup\limits_{B \in \mathcal{B}} B$ (as otherwise $\mathcal{B}$ generates either too few or too many sets). But do we need anything else? As it turns out, we do. Let us take a look at what happens if we take the intersections of two sets $U_1$ and $U_2$ that are generated by $\mathcal{B}$. We have $U_1 \cap U_2 = \left(\bigcup\limits_{j \in J} B_j\right) \cap \left(\bigcup\limits_{k \in K} B_k\right) = \bigcup\limits_{j \in J, k \in K} (B_j \cap B_k)$. Looking at this, we realize that the intersections of basis elements should also be in the basis, since then $U_1 \cap U_2$ is guaranteed to be an open set. It is easy to see, that these two properties are also sufficient for $\mathcal{B}$ to be a basis of <em>some</em> topology.
+
+    <div class="proposition">
+      <span class="name">Proposition 1.9</span> Let $X \neq \emptyset, \mathcal{B} \subseteq \mathcal{P}(X)$. Then $\mathcal{B}$ is a basis for some topology if and only if
+      <ol>
+        <li> $X = \bigcup\limits_{B \in \mathcal{B}} B$</li>
+        <li> for any $B_1, B_2 \in \mathcal{B}$, the set $B_1 \cap B_2$ is a union of elements of $\mathcal{B}$ </li>
+      </ol>
+    </div>
+
+    The proof of this proposition essentially consists of formalizing the argument above. <br> <br>
+
+    Note that while proposition 1.9 states that any $\mathcal{B}$ that has the properties (1) and (2) is a basis, it says nothing about which topology $\mathcal{B}$ is a basis of. How can we find out whether a $\mathcal{B}$ is the basis of some given topology? This is answered by the following proposition:
+
+    <div class="proposition">
+      <span class="name">Proposition 1.10</span> Let $(X, \tau)$ be a topological space and $\mathcal{B} \subseteq \tau$. Then $\mathcal{B}$ is a basis of $(X, \tau)$ if and only if for any $U \in \tau, x \in U$ there is a $B \in \mathcal{B}$ such that $x \in B \subseteq U$.
+    </div>
+
+    We prove proposition 1.10 in both directions. <br> <br>
+
+    First, let $\mathcal{B}$ be a basis of $\tau$. Now, take any $U \in \tau$ and any $x \in U$. Then $U = \bigcup\limits_{j \in J} B_j$ (for some index set $J$). This implies that for some $j \in J$ we will have $x \in B_j$. Obviously for that $B_j$ we will also have $B_j \subseteq U$. <br> <br>
+
+    For the other direction, assume that for each $U \in \tau, x \in U$ there is some $B \in \mathcal{B}$ such that $x \in B \subseteq U$. Take any $V \in \tau$. By the assumption for all $x \in V$ there must be some $B_x$ such that $x \in B_x \subseteq V$. From this we get that $V$ has the form $V = \bigcup\limits_{B_x \in \mathcal{B}} B_x$. Since this is true for <em>any</em> $V$ we get that $\mathcal{B}$ must be a basis.
+
+    <h2> Subspaces </h2>
+
+    Let us consider a subset $Y$ of some topological space $(X, \tau)$ (i.e. $Y \subseteq X$). Could we carry over the topology on $X$ over to $Y$? Looking at this question, we realize that in fact it would probably to work to form the open sets on $Y$ by taking the intersections of the open sets on $X$ with $Y$. This leads us to the following proposition:
+
+    <div class="proposition">
+      <span class="name">Proposition 1.11</span> Let $(X, \tau)$ be a topological space and $Y \subseteq X$. Then $\tau_Y = \{U \cap Y: U \in \tau\}$ is a topology on $Y$.
+    </div>
+
+    <b>Proof:</b> We need to show that the three properties of a topological space hold. <br> <br>
+
+    We immediately see that $\emptyset \in \tau_Y$ since $\emptyset = \emptyset \cap Y$. We also see that $Y \in \tau_Y$ since $Y = X \cap Y$. <br> <br>
+
+    Now, let $O_1, O_2, \dots \in \tau_Y$. Taking their union we get $\bigcup\limits_{i \in I} O_i = \bigcup\limits_{i \in I} (U_i \cap Y) = \left(\bigcup\limits_{i \in I} U_i\right) \cap Y$. Since $U_i$ are open sets, $\bigcup\limits_{i \in I} U_i$ is an open set and therefore $\left(\bigcup\limits_{i \in I} U_i\right) \cap Y$ is in $Y$. <br> <br>
+
+    Now, let $O_1, O_2 \in \tau_Y$. Taking their intersection we get $O_1 \cap O_2 = (U_1 \cap Y) \cap (U_2 \cap Y) = (U_1 \cap U_2) \cap Y$. Since $U_1 \cap U_2$ is an open set, we get that $O_1 \cap O_2$ is in $Y$.
+
+    <div class="definition">
+      <span class="name">Definition 1.12</span> Let $(X, \tau)$ be a topological space and let $Y \subseteq X$. Then the topology $\tau_Y$ from proposition 1.11 is called the <span class="keyword">subspace topology</span> and the space $(Y, \tau_Y)$ is a <span class="keyword">subspace</span> of $(X, \tau)$. We also say that $(X, \tau)$ <span class="keyword">induces</span> the topology $\tau_Y$ on $Y$.
+    </div>
+
+    Similar to before we will not pay much attention to the technical distinction between the subspace topology and the subspace. <br> <br>
+
+    As an example we note that $\mathbb{R}$ induces the discrete topology on $\mathbb{Z}$. <br> <br>
+
+    Whenever we refer to the natural topology on a subset of $\mathbb{R}$, we mean the topology induced by (the Euclidean topology on) $\mathbb{R}$.
+  </div>
+</body>
+
+</html>
